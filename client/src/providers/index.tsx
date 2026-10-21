@@ -11,7 +11,7 @@ export function Providers({ children }: { children: ReactNode }) {
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
       <QueryProvider>
         <TooltipProvider>{children}</TooltipProvider>
-        <Toaster richColors position="top-right" />
+        <Toaster richColors position="bottom-right" />
       </QueryProvider>
     </ThemeProvider>
   );

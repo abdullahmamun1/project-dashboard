@@ -15,7 +15,11 @@ const DUMMY_HASH = bcrypt.hashSync("not-a-real-password", SALT_ROUNDS);
 // Signup only ever creates students; mentors are seeded.
 const register = async ({ name, email, password }: RegisterInput): Promise<AuthResult> => {
   const existing = await UserService.findByEmailWithPassword(email);
-  if (existing) throw new AppError(409, "An account with this email already exists");
+  if (existing) {
+    throw new AppError(409, "An account with this email already exists", {
+      email: ["An account with this email already exists"],
+    });
+  }
 
   const user = await prisma.user.create({
     data: { name, email, passwordHash: await bcrypt.hash(password, SALT_ROUNDS), role: Role.STUDENT },
