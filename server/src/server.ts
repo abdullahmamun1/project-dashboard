@@ -1,9 +1,11 @@
 import app from "./app.js";
 import config from "./config/index.js";
 import prisma from "./lib/prisma.js";
+import { seedMentor } from "./utils/seed.js";
 
 const start = async () => {
   await prisma.$connect();
+  await seedMentor();
 
   const server = app.listen(config.port, () => {
     console.log(`API listening on http://localhost:${config.port}`);

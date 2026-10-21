@@ -1,9 +1,9 @@
 import { Router } from "express";
+import { AuthRoutes } from "../modules/auth/auth.route.js";
 
 const router = Router();
 
-// Module routers are mounted here as they're added, e.g. router.use("/auth", authRoutes).
-const moduleRoutes: { path: string; route: Router }[] = [];
+const moduleRoutes: { path: string; route: Router }[] = [{ path: "/auth", route: AuthRoutes }];
 
 for (const { path, route } of moduleRoutes) router.use(path, route);
 
