@@ -1,0 +1,17 @@
+node_modules
+.env
+.env*.local
+dist
+.next
+.vercel
+*.tsbuildinfo
+.DS_Store
+
+# Prisma generated client
+server/src/generated
+
+# Agent skill files installed by `prisma init` (tooling, not part of the project)
+.agents
+.claude
+.windsurf
+skills-lock.json

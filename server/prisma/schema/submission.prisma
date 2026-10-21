@@ -1,0 +1,24 @@
+model Submission {
+  id          String           @id @default(cuid())
+  projectName String
+  // Stored normalized (lowercase, no trailing slash / .git) so duplicates are detected reliably.
+  repoUrl     String
+  liveUrl     String
+  description String
+  status      SubmissionStatus @default(PENDING)
+  feedback    String?
+  reviewedAt  DateTime?
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+
+  studentId    String
+  student      User    @relation("StudentSubmissions", fields: [studentId], references: [id], onDelete: Cascade)
+  reviewedById String?
+  reviewedBy   User?   @relation("MentorReviews", fields: [reviewedById], references: [id], onDelete: SetNull)
+
+  // Partial unique index `repoUrl WHERE status <> 'REJECTED'` lives in the init migration (raw SQL),
+  // since Prisma's schema language can't express partial indexes.
+  @@index([repoUrl])
+  @@index([status, createdAt])
+  @@index([studentId, createdAt])
+}
