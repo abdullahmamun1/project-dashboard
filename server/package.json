@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "prisma generate && tsc",
+    "build": "prisma generate && tsup",
     "start": "node dist/server.js",
     "typecheck": "tsc --noEmit",
     "postinstall": "prisma generate",
@@ -34,6 +34,7 @@
     "@types/node": "^26.6.5",
     "@types/pg": "^8.23.1",
     "prisma": "^7.10.1",
+    "tsup": "^9.0.0",
     "tsx": "^4.23.15",
     "typescript": "^6.0.3"
   },
