@@ -1,21 +1,27 @@
 "use client";
 
-import { ExternalLinkIcon, FolderGit2Icon, GlobeIcon, MessageSquareIcon, RotateCcwIcon } from "lucide-react";
+import { ExternalLinkIcon, FolderGit2Icon, GlobeIcon, MessageSquareIcon, RotateCcwIcon, SendIcon } from "lucide-react";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { StatusBadge } from "@/components/shared/StatusBadge";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
 import { useMySubmissions } from "@/hooks/useSubmissions";
 import { getErrorMessage } from "@/lib/apiClient";
 import type { Submission } from "@/types";
 import { displayUrl, formatDate, formatDateTime } from "@/utils/format";
+import { SubmissionListSkeleton } from "./StudentDashboardSkeleton";
 
-export function MySubmissions({ onResubmit }: { onResubmit: (submission: Submission) => void }) {
+interface MySubmissionsProps {
+  onResubmit: (submission: Submission) => void;
+  /** Called from the empty state to take the student to the form. */
+  onStart: () => void;
+}
+
+export function MySubmissions({ onResubmit, onStart }: MySubmissionsProps) {
   const { data: submissions, isPending, isError, error, refetch } = useMySubmissions();
 
-  if (isPending) return <SubmissionsSkeleton />;
+  if (isPending) return <SubmissionListSkeleton />;
 
   if (isError) {
     return (
@@ -37,6 +43,12 @@ export function MySubmissions({ onResubmit }: { onResubmit: (submission: Submiss
         icon={FolderGit2Icon}
         title="No submissions yet"
         description="Projects you submit will show up here with their review status and mentor feedback."
+        action={
+          <Button onClick={onStart}>
+            <SendIcon />
+            Submit your first project
+          </Button>
+        }
       />
     );
   }
@@ -129,12 +141,3 @@ function ExternalLink({ href, icon: Icon }: { href: string; icon: typeof GlobeIc
   );
 }
 
-function SubmissionsSkeleton() {
-  return (
-    <div className="flex flex-col gap-4" aria-busy="true" aria-label="Loading submissions">
-      {Array.from({ length: 3 }, (_, i) => (
-        <Skeleton key={i} className="h-40 rounded-xl" />
-      ))}
-    </div>
-  );
-}

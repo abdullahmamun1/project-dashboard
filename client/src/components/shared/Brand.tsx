@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 
 export function Brand({ href, className }: { href: string; className?: string }) {
   return (
-    <Link href={href} className={cn("flex items-center gap-2 font-semibold", className)}>
+    <Link href={href} className={cn("flex items-center gap-2 font-semibold whitespace-nowrap", className)}>
       <span className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
         <FolderGit2Icon className="size-4" />
       </span>

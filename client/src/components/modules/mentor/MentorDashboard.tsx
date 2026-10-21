@@ -1,6 +1,6 @@
 "use client";
 
-import { InboxIcon, SearchXIcon } from "lucide-react";
+import { InboxIcon, PartyPopperIcon, SearchXIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { EmptyState } from "@/components/shared/EmptyState";
 import { Pagination } from "@/components/shared/Pagination";
@@ -37,7 +37,19 @@ export function MentorDashboard() {
 
   const isFiltered = params.status !== "ALL" || params.search !== "";
 
-  const empty = isFiltered ? (
+  const empty =
+    params.status === "PENDING" && !params.search ? (
+      <EmptyState
+        icon={PartyPopperIcon}
+        title="All caught up"
+        description="No submissions are waiting for review right now."
+        action={
+          <Button variant="outline" onClick={() => setParams({ status: "ALL" })}>
+            View all submissions
+          </Button>
+        }
+      />
+    ) : isFiltered ? (
     <EmptyState
       icon={SearchXIcon}
       title="No matching submissions"

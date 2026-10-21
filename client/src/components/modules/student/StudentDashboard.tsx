@@ -10,12 +10,15 @@ export function StudentDashboard() {
   const [resubmitting, setResubmitting] = useState<{ id: string; values: SubmissionValues } | null>(null);
   const formSectionRef = useRef<HTMLElement>(null);
 
-  const startResubmit = ({ id, projectName, repoUrl, liveUrl, description }: Submission) => {
-    setResubmitting({ id, values: { projectName, repoUrl, liveUrl, description } });
+  const focusForm = () =>
     requestAnimationFrame(() => {
       formSectionRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
       formSectionRef.current?.querySelector<HTMLElement>("input")?.focus({ preventScroll: true });
     });
+
+  const startResubmit = ({ id, projectName, repoUrl, liveUrl, description }: Submission) => {
+    setResubmitting({ id, values: { projectName, repoUrl, liveUrl, description } });
+    focusForm();
   };
 
   return (
@@ -34,7 +37,7 @@ export function StudentDashboard() {
         <h2 id="my-submissions-heading" className="text-lg font-semibold">
           Submission history
         </h2>
-        <MySubmissions onResubmit={startResubmit} />
+        <MySubmissions onResubmit={startResubmit} onStart={focusForm} />
       </section>
     </div>
   );
